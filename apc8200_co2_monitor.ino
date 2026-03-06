@@ -102,7 +102,6 @@ void connectWiFi() {
 }
 
 // ===================== SENSOR PARSER =====================
-// Matches your log:
 // 0x02 + [S/C/R/E/T] + 6 ASCII hex + 0x8D (or 0x0D)
 // Noise: 0x80 padding, and 0x8D high-bit CR.
 // We normalize: if b==0x80 or 0x8D => b &= 0x7F
