@@ -147,7 +147,6 @@ static void applyField(char t, uint32_t raw24){
     case 'C': fr.Cppm = (float)raw24 / 256.0f; fr.gotC = true; break;
 
     case 'T': {
-      // From your log: /131072 matches much closer to your ambient in a sealed enclosure
       int32_t s24 = signExtend24(raw24);
       fr.Tc = (float)s24 / 131072.0f;
       fr.gotT = true;
@@ -156,10 +155,8 @@ static void applyField(char t, uint32_t raw24){
 }
 
 static void publishIfReady(){
-  // You said ppm is most important — update it as soon as we have C:
   if(fr.gotC) co2ppm = fr.Cppm;
 
-  // Update the rest whenever present:
   if(fr.gotT) temperature = fr.Tc;
   if(fr.gotS) statusVal = fr.S;
   if(fr.gotE) errorMask = fr.E;
@@ -333,7 +330,6 @@ void handleData() {
 
 void handleNetworks() {
   // NOTE: This returns "slots that are used" as a compact list.
-  // /remove uses the *slot index*; if you want "nth visible entry" removal, say so and I’ll patch it.
   String json = "[";
   bool first = true;
   for (int i = 0; i < MAX_NETWORKS; i++) {
